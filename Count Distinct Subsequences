@@ -1,0 +1,25 @@
+long long mod=1e9+7;
+class Solution {
+public:
+    int distinctSubseqII(string s) {
+        int n=s.size();
+        long  dp[n+1];
+        for(int i=1;i<=n;i++)
+            dp[i]=0;
+      
+        dp[0]=1;
+        map<char,int> m;
+        for(int i=1;i<=n;i++)
+        { 
+          dp[i]=2*dp[i-1];
+          if(m.find(s[i-1])!=m.end())
+          { 
+            int t=m[s[i-1]];
+            dp[i]=(dp[i]-dp[t-1]+mod)%mod;
+          }
+          m[s[i-1]]=i;
+        }
+      return dp[n]-1;
+    }
+};
+
