@@ -1,0 +1,32 @@
+struct cmp{
+    bool operator()(const ListNode* a,const ListNode* b)
+    {
+        return a->val > b->val;
+    }
+};
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        priority_queue<ListNode*,vector<ListNode*>,cmp> q;
+        
+        for(auto i : lists)
+        {
+            if(i)
+                 q.push(i);
+        }
+        
+        ListNode* head = new ListNode(0);
+        ListNode* ptr = head;
+        
+        while(q.size())
+        {
+            ListNode* tp=q.top();
+            ptr->next=tp;
+            ptr=ptr->next;
+            q.pop();
+            if(tp->next)
+              q.push(tp->next);
+        }
+       return head->next; 
+    }
+};
