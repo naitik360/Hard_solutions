@@ -1,0 +1,23 @@
+class Solution {
+public:
+    void find(TreeNode* root, double t, int k,priority_queue<pair<double,int>, vector<pair<double,int>>, greater<pair<double,int>>> &q)
+    {
+        if(!root)
+             return ;
+        q.push({abs(double(root->val)-t),root->val});
+        find(root->left,t,k,q);
+        find(root->right,t,k,q);
+    }
+    vector<int> closestKValues(TreeNode* root, double t, int k) {
+        priority_queue<pair<double,int>, vector<pair<double,int>>, greater<pair<double,int>>> q;
+        find(root,t,k,q);
+        vector<int> v;
+        
+        while(k--)
+        {
+            v.push_back(q.top().second);
+            q.pop();
+        }
+        return v;
+    }
+};
