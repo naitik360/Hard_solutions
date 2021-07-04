@@ -1,0 +1,52 @@
+class Solution {
+public:
+    int minCostII(vector<vector<int>>& v) {
+        int r=v.size(),c=v[0].size(),l=INT_MAX,s=INT_MAX;
+        int dp[r][c];
+        
+        for(int i=0;i<c;i++)
+        {
+            dp[0][i]=v[0][i];
+            
+            if(l>v[0][i])
+            {
+                s=l;
+                l=v[0][i];
+            }
+            else if(s>v[0][i])
+            {
+                s=v[0][i];
+            }
+        }
+        
+        
+        for(int i=1;i<r;i++)
+        {   
+            int nl=INT_MAX,ns=INT_MAX;
+            for(int j=0;j<c;j++)
+            {   
+                dp[i][j]=0;
+                if(dp[i-1][j]!=l)
+                {
+                    dp[i][j]=v[i][j]+l;
+                }
+                else if(dp[i-1][j]==l)
+                {
+                    dp[i][j]=v[i][j]+s;
+                }
+                if(nl>dp[i][j])         //mein v[i][j] ke saath compare kr raha tha,take care 
+               { 
+                   ns=nl;
+                   nl=dp[i][j];
+               }
+               else if(ns>dp[i][j])
+               {
+                   ns=dp[i][j];
+               }
+            }
+          l=nl;
+          s=ns;
+        }
+      return l;
+    }
+};
