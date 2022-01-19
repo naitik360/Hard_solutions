@@ -1,0 +1,82 @@
+class Solution{
+public:
+    int res=0;
+    bool check(string s,map<char,int> &m)
+    {
+        map<char,int> mp;
+        for(auto i : s)
+            mp[i]++;
+        
+        for(auto i : mp)
+        {
+            if(m.find(i.first)!=m.end() && m[i.first]<i.second)
+                return 0;
+            else if(m.find(i.first)==m.end())
+                return 0;
+        }
+      return 1;
+    }
+    int find(vector<int>& s,vector<string> &k)
+    {
+        int sum=0;
+        for(auto i : k)
+        {
+            for(auto j : i)
+            {
+                sum+=(s[j-'a']);
+            }
+        }
+      return sum;
+    }
+    void reduce(string &s, map<char,int> &m)
+    {
+        for(auto i : s)
+        {
+            m[i]--;
+            if(m[i]==0)
+                m.erase(i);
+        }
+      return ;
+    }
+    void fill(string &s, map<char,int> &m)
+    {
+        for(auto i : s)
+        {
+            m[i]++;
+        }
+      return ;
+    }
+    void solve(vector<string>& w,map<char,int> &m,vector<int>& s,int index,vector<string> &k)
+    {
+        if(index==w.size())
+        {
+            res=max(res,find(s,k));
+            return ;
+        }
+        
+        if(check(w[index],m))
+        {   
+            k.push_back(w[index]);
+            reduce(w[index],m);
+            solve(w,m,s,index+1,k);
+            fill(w[index],m);
+            k.pop_back();
+        }
+        
+        solve(w,m,s,index+1,k);
+    }
+    
+    int maxScoreWords(vector<string>& w, vector<char>& l, vector<int>& s){
+        
+        map<char,int> m;
+        
+        for(auto i : l)
+            m[i]++;
+        
+        vector<string> k;
+        
+        solve(w,m,s,0,k);
+        
+        return res;
+    }
+};
