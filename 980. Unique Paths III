@@ -1,0 +1,45 @@
+class Solution {
+public:
+    void DFS(vector<vector<int>>& v,int r,int c,int &ans,int cnt)
+    {
+        if(r<0 || r>=v.size() || c<0 || c>=v[0].size() || v[r][c]==-1)
+            return ;
+        if(v[r][c]==2)
+        {
+            if(cnt==0)
+                ans++;
+          return ;
+        }
+        int val=v[r][c];
+        v[r][c]=-1;
+        DFS(v,r+1,c,ans,cnt-1);
+        DFS(v,r-1,c,ans,cnt-1);
+        DFS(v,r,c-1,ans,cnt-1);
+        DFS(v,r,c+1,ans,cnt-1);
+        v[r][c]=val;
+    }
+    int uniquePathsIII(vector<vector<int>>& v) {
+        int i,j,x,y,cnt=1;
+        for(i=0;i<v.size();i++)
+        {
+            for(j=0;j<v[0].size();j++)
+            {
+                if(v[i][j]==1)
+                {   
+                    x=i;
+                    y=j;
+                }
+                
+                if(v[i][j]==0)
+                {
+                    cnt++;
+                }
+            }
+        }
+        int ans=0;
+        
+        DFS(v,x,y,ans,cnt);
+        
+        return ans;
+    }
+};
