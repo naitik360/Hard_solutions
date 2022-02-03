@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int find(TreeNode* root,int &ans,unordered_map<TreeNode*,int> &m)
+    {
+        if(!root)
+            return 0;
+        if(m.find(root)!=m.end())
+            return m[root];
+        
+        int inc = root->val;
+        
+        if(root->left)
+        {
+            inc=inc+find(root->left->left,ans,m)+find(root->left->right,ans,m);
+        }
+        
+        if(root->right)
+        {
+            inc=inc+find(root->right->left,ans,m)+find(root->right->right,ans,m);
+        }
+        
+        int exc = find(root->left,ans,m) + find(root->right,ans,m);
+        
+        ans=max(ans,max(exc,inc));
+        m[root]=max(exc,inc);
+        return m[root];
+            
+    }
+    int rob(TreeNode* root) {
+        int ans=0;
+        unordered_map<TreeNode*,int> m;
+        find(root,ans,m);
+        return ans;
+    }
+};
