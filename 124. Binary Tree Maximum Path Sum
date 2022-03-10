@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int res=INT_MIN;
+    int find(TreeNode* root)
+    {
+        if(!root)
+             return 0;
+        int l = max(find(root->left),0);
+        int r = max(find(root->right),0);
+        
+        res=max(res,l+r+root->val);
+        return max(l,r)+root->val;
+    }
+    int maxPathSum(TreeNode* root) {
+        if(!root)
+             return 0;
+        find(root);
+        return res;
+    }
+};
