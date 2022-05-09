@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int trap(vector<int>& v) {
+        int l=0,h=v.size()-1,lm=0,rm=0,res=0;
+        
+        while(l<=h)
+        {
+            if(v[l]<v[h])
+            {
+                if(v[l]>lm)
+                     lm=v[l];
+                else
+                     res+=lm-v[l];
+                l++;
+            }
+            else
+            {
+                if(v[h]>rm)
+                     rm=v[h];
+                else
+                     res+=rm-v[h];
+                h--;
+            }
+        }
+        
+        return res;
+        
+    }
+};
