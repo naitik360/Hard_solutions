@@ -1,0 +1,44 @@
+class Solution {
+public:
+    int shortestPath(vector<vector<int>>& v, int k) {
+        int n =v.size(),m=v[0].size();
+         vector<vector<int>> vis(n,vector<int>(m,-1));
+        queue<vector<int>> q;
+        //  r c cost walls
+        q.push({0,0,0,k});
+        
+        while(q.size())
+        {
+            auto g = q.front(); q.pop();
+            int r = g[0];
+            int c = g[1];
+            int cost = g[2];
+            int wall = g[3];
+            
+            if(r<0 || r>=n || c<0 || c>=m)
+              continue;
+              
+            if(r==n-1&&c==m-1)
+              return cost;
+            
+            if(v[r][c]==1)
+            {
+                if(wall>0)
+                 wall--;
+                else
+                 continue;
+            }
+            
+            if(vis[r][c]!=-1 && vis[r][c]>=wall)
+              continue;
+            
+            vis[r][c]=wall;
+            
+            q.push({r+1,c,cost+1,wall});
+            q.push({r-1,c,cost+1,wall});
+            q.push({r,c-1,cost+1,wall});
+            q.push({r,c+1,cost+1,wall});
+        }
+      return -1;
+    }
+};
